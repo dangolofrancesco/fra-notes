@@ -1,11 +1,41 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import BaseLayout from '../layouts/BaseLayout.astro';
+const pageTitle = "Home";
 ---
+<BaseLayout pageTitle={pageTitle}>
+  
+  <section class="mb-20 pt-10">
+    <h1 class="text-5xl font-bold mb-6 leading-tight">
+      Ciao, sono <span class="text-blue-700">Il Tuo Nome</span>.
+      <br>Creo esperienze digitali minimaliste.
+    </h1>
+    <p class="text-xl text-gray-600 max-w-2xl">
+      Sviluppatore Web & Designer. Mi ispiro alla semplicità per risolvere problemi complessi.
+    </p>
+  </section>
 
-<Layout>
-	<Welcome />
-</Layout>
+  <section>
+    <h2 class="text-3xl font-bold mb-8 border-b pb-4">Progetti Selezionati</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      
+      <div class="group cursor-pointer">
+        <div class="h-64 bg-gray-200 rounded-lg overflow-hidden mb-4">
+          <div class="w-full h-full flex items-center justify-center text-gray-400">Immagine Progetto</div>
+        </div>
+        <h3 class="text-2xl font-bold group-hover:underline decoration-blue-700 decoration-2">Nome Progetto Uno</h3>
+        <p class="text-gray-600 mt-2">Una breve descrizione che spiega il problema risolto.</p>
+      </div>
+
+      <div class="group cursor-pointer">
+        <div class="h-64 bg-gray-200 rounded-lg overflow-hidden mb-4">
+          <div class="w-full h-full flex items-center justify-center text-gray-400">Immagine Progetto</div>
+        </div>
+        <h3 class="text-2xl font-bold group-hover:underline decoration-blue-700 decoration-2">Altro Lavoro</h3>
+        <p class="text-gray-600 mt-2">Dettagli tecnici sullo stack utilizzato.</p>
+      </div>
+
+    </div>
+  </section>
+
+</BaseLayout>
