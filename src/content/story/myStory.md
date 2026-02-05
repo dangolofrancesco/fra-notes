@@ -2,7 +2,7 @@
 ---
 title: "My Journey into Computer and Data Science"
 heroBackground: "/data background.jpg"
-heroCutout: "/francesco-cutout.jpg"
+heroCutout: "/francesco-cutout.png"
 ---
 
 <div class="hidden md:block md:col-span-1"></div>
