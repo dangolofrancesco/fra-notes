@@ -1,28 +1,33 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import '../styles/global.css'; 
+
 const { pageTitle } = Astro.props;
 ---
 <html lang="it">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>{pageTitle} | Il Mio Portfolio</title>
+    <title>{pageTitle} | Francesco Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   </head>
-  <body class="bg-white text-gray-900 font-sans antialiased">
-    <Header />
-    <main class="max-w-4xl mx-auto px-4 py-12">
-      <slot />
-    </main>
-    <Footer />
+  
+  <body class="bg-slate-100 text-gray-900 font-sans antialiased min-h-screen">
+    
+    <div class="w-full md:w-[85%] max-w-[1600px] mx-auto bg-white shadow-2xl min-h-screen relative flex flex-col overflow-hidden rounded-b-xl border-x border-gray-200">
+        
+        <Header />
+        
+        <main class="w-full flex-grow">
+          <slot />
+        </main>
+
+        <Footer />
+        
+    </div>
+
   </body>
 </html>
-
-<style>
-  /* Regole globali per la tipografia stile GatesNotes */
-  h1, h2, h3 { font-family: 'Merriweather', serif; }
-  body { font-family: 'Inter', sans-serif; }
-</style>

@@ -1,8 +1,73 @@
 ---
-const { title, description, href } = Astro.props;
+const { title, description, url, image, tags, variant = "vertical" } = Astro.props;
 ---
-<div class="project-card">
-  <h3>{title}</h3>
-  <p>{description}</p>
-  <a href={href}>Vedi Progetto</a>
-</div>
+
+{variant === "vertical" && (
+    <article class="flex flex-col group h-full justify-between">
+        
+        <div class="mb-6">
+            <div class="w-full h-px bg-gray-200 mb-4 group-hover:bg-[#E85D04] transition-colors duration-300"></div>
+
+            <span class="text-[10px] font-bold font-sans tracking-[0.2em] uppercase text-gray-500 mb-2 block">
+                {tags && tags[0]}
+            </span>
+
+            <a href={url} class="block">
+                <h3 class="text-2xl font-serif font-bold text-gray-900 leading-tight mb-3 group-hover:text-[#E85D04] transition-colors duration-300 cursor-pointer">
+                    {title}
+                </h3>
+            </a>
+
+            <p class="text-gray-600 font-sans text-sm leading-relaxed line-clamp-3">
+                {description}
+            </p>
+        </div>
+
+        <a href={url} class="block overflow-hidden rounded-lg aspect-[16/10] relative">
+            <img 
+                src={image} 
+                alt={title} 
+                class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+            />
+            <div class="absolute top-4 right-4 bg-black/30 backdrop-blur-sm p-2 rounded text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                </svg>
+            </div>
+        </a>
+
+    </article>
+)}
+
+{variant === "horizontal" && (
+    <article class="relative w-full group overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-500 aspect-[4/3] md:aspect-[21/9]">
+        
+        <a href={url} class="block w-full h-full">
+            <img 
+                src={image} 
+                alt={title} 
+                class="w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-black/10 transition-colors duration-500 group-hover:bg-transparent"></div>
+        </a>
+
+        <div class="absolute bottom-6 left-4 md:bottom-10 md:left-10 bg-white/70 backdrop-blur-sm p-6 md:p-10 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.2)] max-w-[85%] md:max-w-lg z-20">
+             
+            <span class="text-[10px] font-bold font-sans tracking-[0.2em] uppercase text-gray-500 mb-3 block">
+                {tags && tags[0]}
+            </span>
+
+            <a href={url} class="block">
+                <h3 class="text-2xl md:text-4xl font-serif font-bold text-gray-900 leading-tight mb-3 group-hover:text-[#E85D04] transition-colors duration-300">
+                    {title}
+                </h3>
+            </a>
+
+            <p class="text-gray-600 font-sans text-sm md:text-base leading-relaxed line-clamp-2 md:line-clamp-3">
+                {description}
+            </p>
+
+            </div>
+
+    </article>
+)}

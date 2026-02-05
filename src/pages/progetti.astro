@@ -1,0 +1,162 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const pageTitle = "Projects";
+
+// 1. Recupera e ordina i progetti
+const allProjects = await getCollection('projects');
+const sortedProjects = allProjects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// 2. Separiamo il primo progetto dagli altri
+const featuredProject = sortedProjects[0];
+const otherProjects = sortedProjects; // Includiamo tutti i progetti nella griglia
+
+// 3. Estraiamo TUTTI i tag unici da tutti i progetti per creare il menu filtri
+// Usa un Set per evitare duplicati e aggiungi "All" all'inizio
+const allTags = ['All', ...new Set(otherProjects.flatMap(project => project.data.tags))];
+---
+
+<BaseLayout pageTitle={pageTitle}>
+
+  <div class="relative w-full h-[50vh] min-h-[400px] overflow-hidden group flex items-end">
+      <img src="/projects-hero.jpg" alt="Projects Cover" class="absolute inset-0 w-full h-full object-cover"/>
+      <div class="absolute inset-0 bg-gradient-to-t from-white/60 via-white/10 to-transparent"></div>
+      <div class="relative z-10 w-[90%] mx-auto pb-10 md:pb-16 pl-2">
+          <h1 class="text-3xl md:text-[4rem] font-sans font-bold text-black tracking-tighter leading-none">
+              Projects
+          </h1>
+      </div>
+  </div>
+
+  <section class="w-[90%] md:w-[70%] mx-auto py-20 md:py-28 border-b border-gray-200 mb-20">
+      <h2 class="text-3xl md:text-4xl font-sans font-light leading-tight text-gray-500">
+        My <span class="font-bold text-gray-900">work</span> is driven by a strong curiosity on how <span class="font-bold text-[#E85D04]">technology</span> can shape the future. 
+        <br><br>
+        I believe real innovation lies at the intersection of <span class="font-bold text-gray-900">logic and imagination</span>, and that the greatest value we can bring is building technology that empowers people and communities.
+      </h2>
+  </section>
+
+  {featuredProject && (
+    <section class="w-[90%] mx-auto mb-24">
+        <div class="mb-8 border-l-4 border-[#E85D04] pl-4">
+            <span class="text-xs font-bold font-sans tracking-[0.2em] uppercase text-gray-500">
+                Latest Work
+            </span>
+        </div>
+        <ProjectCard 
+            variant="horizontal"
+            title={featuredProject.data.title}
+            description={featuredProject.data.description}
+            url={`/projects/${featuredProject.slug}`}
+            image={featuredProject.data.image}
+            tags={featuredProject.data.tags}
+        />
+    </section>
+  )}
+
+  <section class="w-[90%] mx-auto mb-32">
+      
+      <div class="mb-12 border-t border-gray-200 pt-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+           
+           <div class="flex gap-4 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+                {allTags.map((tag) => (
+                    <button 
+                        class="filter-btn text-sm font-sans font-bold uppercase tracking-wider text-gray-400 hover:text-black transition-colors whitespace-nowrap data-[active=true]:text-[#E85D04] data-[active=true]:border-b-2 data-[active=true]:border-[#E85D04]"
+                        data-filter={tag}
+                    >
+                        {tag}
+                    </button>
+                ))}
+           </div>
+      </div>
+
+      <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+          {otherProjects.map((project) => (
+             /* Avvolgiamo la Card in un div per gestire il filtro */
+             <div class="project-item transition-all duration-500 ease-in-out" data-tags={project.data.tags.join(',')}>
+                 <ProjectCard 
+                    variant="vertical"
+                    title={project.data.title}
+                    description={project.data.description}
+                    url={`/projects/${project.slug}`}
+                    image={project.data.image}
+                    tags={project.data.tags}
+                 />
+             </div>
+          ))}
+      </div>
+
+      <div id="no-results" class="hidden text-center py-20 text-gray-500 font-sans italic">
+          Nessun progetto trovato per questa categoria.
+      </div>
+
+  </section>
+
+</BaseLayout>
+
+<script>
+  function initFilters() {
+      const buttons = document.querySelectorAll('.filter-btn');
+      const items = document.querySelectorAll('.project-item');
+      const noResultsMsg = document.getElementById('no-results');
+
+      if (!buttons.length) return;
+
+      // Imposta "All" come attivo all'inizio se nessun altro è attivo
+      const hasActive = Array.from(buttons).some(b => b.getAttribute('data-active') === 'true');
+      if (!hasActive && buttons[0]) {
+          buttons[0].setAttribute('data-active', 'true');
+      }
+
+      buttons.forEach(btn => {
+          // Rimuovi eventuali listener precedenti clonando il nodo (trick rapido) o gestendo meglio
+          // O semplicemente aggiungi il listener. Se lo script gira una volta sola (modulo), va bene.
+          btn.addEventListener('click', () => {
+              const filterValue = btn.getAttribute('data-filter');
+              if (!filterValue) return;
+
+              // 1. Gestione Stile Bottoni (Attiva/Disattiva)
+              buttons.forEach(b => b.setAttribute('data-active', 'false'));
+              btn.setAttribute('data-active', 'true');
+
+              // 2. Logica di Filtraggio
+              let visibleCount = 0;
+
+              items.forEach((item) => {
+                  if (!(item instanceof HTMLElement)) return;
+                  
+                  const tagsAttr = item.getAttribute('data-tags');
+                  const itemTags = tagsAttr ? tagsAttr.split(',') : [];
+                  
+                  // Se il filtro è "All" o se il progetto ha quel tag tra i suoi tag
+                  if (filterValue === 'All' || itemTags.includes(filterValue)) {
+                      item.style.display = 'block';
+                      // Piccolo timeout per l'animazione di fade-in (opzionale)
+                      setTimeout(() => item.style.opacity = '1', 50);
+                      visibleCount++;
+                  } else {
+                      item.style.display = 'none';
+                      item.style.opacity = '0';
+                  }
+              });
+
+              // 3. Mostra messaggio se vuoto
+              if (noResultsMsg) {
+                  if (visibleCount === 0) {
+                      noResultsMsg.classList.remove('hidden');
+                  } else {
+                      noResultsMsg.classList.add('hidden');
+                  }
+              }
+          });
+      });
+  }
+
+  // Eseguiamo lo script
+  initFilters();
+
+  // Se in futuro aggiungi le View Transitions, scommenta questa riga:
+  // document.addEventListener('astro:page-load', initFilters);
+</script>
