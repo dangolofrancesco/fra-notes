@@ -1,0 +1,5 @@
+# Robots.txt per Francesco D'Angolo Portfolio
+User-agent: *
+Allow: /
+
+Sitemap: https://francesco-dangolo.netlify.app/sitemap.xml

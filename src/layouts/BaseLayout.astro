@@ -3,13 +3,47 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css'; 
 
-const { pageTitle } = Astro.props;
+interface Props {
+  pageTitle: string;
+  description?: string;
+  keywords?: string;
+}
+
+const { 
+  pageTitle, 
+  description = "Francesco D'Angolo - Data Scientist, AI Researcher e Developer. Portfolio di progetti di machine learning, causal inference e analisi dati.",
+  keywords = "Francesco D'Angolo, francescodangolo, fra notes, franotes, data scientist, AI researcher, machine learning, causal inference, portfolio"
+} = Astro.props;
+
+const siteUrl = "https://francesco-dangolo.netlify.app"; // Aggiorna con il tuo URL Netlify
 ---
 <html lang="it">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>{pageTitle} | Francesco Portfolio</title>
+    <title>{pageTitle} | Francesco D'Angolo Portfolio</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content="Francesco D'Angolo" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:title" content={`${pageTitle} | Francesco D'Angolo`} />
+    <meta property="og:description" content={description} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={siteUrl} />
+    <meta property="twitter:title" content={`${pageTitle} | Francesco D'Angolo`} />
+    <meta property="twitter:description" content={description} />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href={siteUrl + Astro.url.pathname} />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">

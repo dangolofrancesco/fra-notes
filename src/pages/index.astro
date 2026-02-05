@@ -4,11 +4,14 @@ import ProjectCard from '../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
 const pageTitle = "Home";
+const description = "Francesco D'Angolo - Data Scientist e AI Researcher. Esplora i miei progetti di machine learning, causal inference e analisi dati avanzata.";
+const keywords = "Francesco D'Angolo, francescodangolo, fra notes, franotes, data scientist portfolio, machine learning projects, AI research, causal inference";
+
 const allProjects = await getCollection('projects');
 const sortedProjects = allProjects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} description={description} keywords={keywords}>
 	
   <!-- HERO SECTION -->
   <section class="relative w-full pt-10 pb-16 overflow-visible">
