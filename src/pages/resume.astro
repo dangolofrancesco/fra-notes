@@ -2,26 +2,34 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const pageTitle = "Resume";
-const pdfUrl = "/resume.pdf"; // Assicurati che il file sia in public/resume.pdf
+const pdfUrl = "/resume.pdf";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
 
-  <section class="w-full pt-32 md:pt-40 pb-20 px-6 min-h-screen">
-    <div class="max-w-5xl mx-auto">
+  <section class="w-full pt-24 md:pt-32 pb-20 px-6">
+    <div class="max-w-4xl mx-auto">
       
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-gray-200 pb-8">
-          <div>
-            <h1 class="text-5xl md:text-7xl font-serif font-bold text-gray-900 mb-4">Resume</h1>
-            <p class="text-gray-500 font-sans text-lg">
-                My academic and professional journey in detail.
-            </p>
+      <!-- Header Section -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-16 border-b border-gray-200 pb-8">
+          <div class="flex items-center gap-6">
+            <img 
+              src="/profilo_resume.png" 
+              alt="Francesco D'Angolo" 
+              class="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover  shadow-lg"
+            />
+            <div>
+              <h1 class="text-4xl md:text-6xl font-serif font-bold text-gray-900 mb-2">Resume</h1>
+              <p class="text-gray-500 font-sans text-base md:text-lg">
+                  My academic and professional journey in detail.
+              </p>
+            </div>
           </div>
 
           <a 
             href={pdfUrl} 
-            download="resume.pdf"
-            class="group flex items-center gap-3 px-6 py-3 bg-black text-white font-sans font-bold uppercase tracking-widest text-xs hover:bg-[#E85D04] transition-colors duration-300 rounded shadow-lg"
+            download="Francesco_DAngolo_Resume.pdf"
+            class="group flex items-center gap-3 px-6 py-3 bg-black text-white font-sans font-bold uppercase tracking-widest text-xs hover:bg-[#E85D04] transition-colors duration-300 rounded shadow-lg self-start"
           >
             <span>Download PDF</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 group-hover:translate-y-1 transition-transform">
@@ -30,17 +38,148 @@ const pdfUrl = "/resume.pdf"; // Assicurati che il file sia in public/resume.pdf
           </a>
       </div>
 
-      <div class="w-full bg-gray-100 rounded-xl overflow-hidden shadow-xl border border-gray-200">
-          
-          <object data={pdfUrl} type="application/pdf" class="w-full h-[80vh] min-h-[500px]">
-              <div class="flex flex-col items-center justify-center h-full p-10 text-center text-gray-500 font-sans">
-                  <p class="mb-4">Your browser does not support viewing PDFs directly.</p>
-                  <a href={pdfUrl} class="text-[#E85D04] font-bold underline hover:text-black">
-                      Click here to download the PDF
-                  </a>
-              </div>
-          </object>
+      <!-- About Section -->
+      <div class="mb-20">
+        <h2 class="text-sm font-sans font-bold tracking-[0.2em] uppercase text-gray-400 mb-6">About</h2>
+        <div class="space-y-4 text-gray-700 font-sans text-base leading-relaxed">
+          <p>
+            Master's student in Computer Science with a specialization in Data Science, currently enrolled in a double degree program between Politecnico di Torino and the University of Illinois Chicago. Passionate about leveraging machine learning and AI to solve real-world problems, with hands-on experience in causal inference, NLP, and data analysis.
+          </p>
+          <p>
+            Strong foundation in statistical modeling, Python programming, and research methodologies. Eager to contribute to innovative projects that drive impact through data-driven insights and intelligent systems.
+          </p>
+        </div>
+      </div>
 
+      <!-- Education Section -->
+      <div class="mb-20">
+        <h2 class="text-sm font-sans font-bold tracking-[0.2em] uppercase text-gray-400 mb-8">Education</h2>
+        
+        <div class="space-y-12">
+          
+          <!-- UIC -->
+          <div class="relative pl-20 md:pl-24">
+            <div class="absolute left-0 top-0 w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-white shadow-md bg-white">
+              <img src="/resume_images/UIC.png" alt="UIC Logo" class="w-full h-full object-cover" />
+            </div>
+            
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
+              <h3 class="text-2xl font-serif font-bold text-gray-900">University of Illinois Chicago</h3>
+              <span class="text-sm font-sans text-gray-500">2025 - 2026</span>
+            </div>
+            
+            <p class="text-lg font-sans text-gray-700 mb-2">Master of Science in Computer Science - Double degree program with Politecnico di Torino</p>
+          </div>
+
+          <!-- Politecnico Master -->
+          <div class="relative pl-20 md:pl-24">
+            <div class="absolute left-0 top-0 w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-white shadow-md bg-white">
+              <img src="/resume_images/PoliTo.png" alt="Politecnico Logo" class="w-full h-full object-cover" />
+            </div>
+            
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
+              <h3 class="text-2xl font-serif font-bold text-gray-900">Politecnico di Torino</h3>
+              <span class="text-sm font-sans text-gray-500">2024 - 2026</span>
+            </div>
+            
+            <p class="text-lg font-sans text-gray-700 mb-2">Master of Science in Data Science & Engineering</p>
+            </div>
+
+          <!-- Bachelor -->
+          <div class="relative pl-20 md:pl-24">
+            <div class="absolute left-0 top-0 w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-white shadow-md bg-white">
+              <img src="/resume_images/PoliTo.png" alt="Politecnico Logo" class="w-full h-full object-cover" />
+            </div>
+            
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
+              <h3 class="text-2xl font-serif font-bold text-gray-900">Politecnico di Torino</h3>
+              <span class="text-sm font-sans text-gray-500">2021 - 2024</span>
+            </div>
+            
+            <p class="text-lg font-sans text-gray-700 mb-2">Bachelor of Science in Computer Engineering</p>
+    
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Work Experience Section -->
+      <div class="mb-20">
+        <h2 class="text-sm font-sans font-bold tracking-[0.2em] uppercase text-gray-400 mb-8">Work Experience</h2>
+        
+        <div class="space-y-12">
+          
+          <!-- Research Assistant -->
+          <div class="relative pl-20 md:pl-24">
+            <div class="absolute left-0 top-0 w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-white shadow-md bg-white">
+              <img src="/resume_images/UIC.png" alt="UIC Logo" class="w-full h-full object-cover" />
+            </div>
+            
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
+              <div>
+                <h3 class="text-2xl font-serif font-bold text-gray-900">Student Research Assistant</h3>
+                <p class="text-base font-sans text-gray-600 mt-1">University of Illinois Chicago - Computer Science Department</p>
+              </div>
+              <span class="text-sm font-sans text-gray-500">Jan 2025 - Present</span>
+            </div>
+            
+            <p class="text-lg font-sans text-gray-700 mb-2">Conducting research on mechanism design for carbon-aware cloud computing under Prof. Ian Kash, developing stochastic
+              optimization models for cloud spot instance allocation under real-time electricity pricing.</p>
+          </div>
+  
+
+          <!-- Summer Intern -->
+          <div class="relative pl-20 md:pl-24">
+            <div class="absolute left-0 top-0 w-12 h-12 md:w-16 md:h-16 rounded-full overflow-hidden border-2 border-white shadow-md bg-white">
+              <img src="/resume_images/hitachirail_logo.jpeg" alt="Hitachi Rail Logo" class="w-full h-full object-cover" />
+            </div>
+            
+            <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-2 mb-3">
+              <div>
+                <h3 class="text-2xl font-serif font-bold text-gray-900">Data Science Intern</h3>
+                <p class="text-base font-sans text-gray-600 mt-1">Hitachi Rail</p>
+              </div>
+              <span class="text-sm font-sans text-gray-500">March 2023 - June 2024</span>
+            </div>
+          
+
+        </div>
+      </div>
+
+      <!-- Skills Section -->
+      <div class="mt-20 mb-20">
+        <h2 class="text-sm font-sans font-bold tracking-[0.2em] uppercase text-gray-400 mb-8">Skills</h2>
+        
+        <div class="flex flex-wrap gap-3">
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">Python</span>
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">SQL</span>
+    
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">C/C++</span>
+          
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">PyTorch</span>
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">TensorFlow</span>
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">Scikit-learn</span>
+          
+          
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">Pandas</span>
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">NumPy</span>
+          
+          
+          
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">Git</span>
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">Docker</span>
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">Apache Spark</span>
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">MongoDB</span>
+          
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">Machine Learning & Deep Learning</span>
+      
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">Natural Language Processing</span>
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">Causal Inference</span>
+          <span class="px-4 py-2 bg-[#E85D04] text-white font-sans text-sm font-medium rounded-full">Statistical Analysis</span>
+          
+          
+          
+        </div>
       </div>
 
     </div>
