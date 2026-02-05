@@ -1,8 +1,8 @@
 
 ---
 title: "My Journey into Computer and Data Science"
-heroBackground: "/data background.png"
-heroCutout: "/francesco-cutout.png"
+heroBackground: "/data background.jpg"
+heroCutout: "/francesco-cutout.jpg"
 ---
 
 <div class="hidden md:block md:col-span-1"></div>
@@ -23,7 +23,7 @@ heroCutout: "/francesco-cutout.png"
 
 <figure class="col-span-1 md:col-span-5 w-full md:w-[80%] mx-auto my-12">
     <img 
-      src="/Timeline.png" 
+      src="/Timeline.jpg" 
       alt="Timeline of Francesco's Journey" 
       class="w-full h-auto object-cover rounded-md shadow-lg"
     />
