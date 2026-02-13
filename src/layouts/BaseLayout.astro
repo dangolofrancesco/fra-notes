@@ -11,23 +11,41 @@ interface Props {
 
 const { 
   pageTitle, 
-  description = "Francesco D'Angolo - Data Scientist, AI Researcher e Developer. Portfolio di progetti di machine learning, causal inference e analisi dati.",
+  description = "Data Scientist bridging the gap between engineering and social impact. Explore my projects on FraNotes.",
   keywords = "Francesco D'Angolo, francescodangolo, fra notes, franotes, data scientist, AI researcher, machine learning, causal inference, portfolio"
 } = Astro.props;
 
-const siteUrl = "https://francescodangolo.netlify.app";
+// Logica per il titolo completo:
+// Se siamo in Homepage, vogliamo ESATTAMENTE la frase che hai chiesto.
+// Se siamo in altre pagine, vogliamo "Nome Pagina | FraNotes"
+const fullTitle = pageTitle === "Home" 
+  ? "Francesco D'Angolo Portfolio - FraNotes" 
+  : `${pageTitle} | FraNotes`;
+
+const siteUrl = "https://francescodangolo.com";
 ---
-<html lang="it">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>{pageTitle} | Francesco D'Angolo Portfolio</title>
+    <title>{fullTitle}</title>
+    
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="shortcut icon" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
     
     <!-- SEO Meta Tags -->
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
     <meta name="author" content="Francesco D'Angolo" />
     <meta name="robots" content="index, follow" />
+    
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+    integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV"
+    crossorigin="anonymous"
+    >
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />

@@ -12,64 +12,22 @@ report: /projects_images/causal_inference/Report.pdf
 
 <div class="col-span-1 md:col-span-3 max-w-3xl mx-auto">
   
-  <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 leading-tight mb-6">
-    Abstract
-  </h2>
-  
   <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    Modern conversational AI systems are often designed to use warm and empathetic language, but it remains unclear whether this stylistic choice <em>causally</em> affects users' emotional attachment. This project addresses that question through a large-scale causal inference study on real-world chatbot interactions.
+    We assume that when an AI speaks kindly, users like it more. But correlation is not causation.
   </p>
   
   <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    Using the WildChat-1M dataset, we operationalize empathy and attachment via an LLM-as-a-Judge framework and apply semantic matching and double robust learning to control for confounding factors. Our results show a statistically significant positive causal effect of empathetic responses on user attachment, with substantial heterogeneity across users and contexts.
+    Modern LLMs are fine-tuned to be warm and empathetic. But does this stylistic choice <em>actually cause</em> users to form an emotional attachment, or is it just a byproduct of users who are already lonely or vulnerable?
+  </p>
+  
+  <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
+    In traditional A/B testing, we randomize users. In observational data (like chat logs), we can't. If a user says "I'm sad," the AI <em>must</em> be empathetic. The treatment is confounded by the prompt. To solve this, I treated language as a high-dimensional causal problem.
   </p>
 
-  <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 leading-tight mb-6 mt-12">
-    Introduction
-  </h2>
+  <h3 class="text-2xl font-bold font-serif mb-4 mt-8">The Architecture: Measuring the Intangible</h3>
   
   <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    As large language models (LLMs) increasingly resemble human conversational partners, they blur the boundary between functional tools and social actors. Prior work suggests that empathetic AI behavior correlates with stronger user engagement, but correlation alone cannot establish causality.
-  </p>
-  
-  <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    This project investigates whether empathetic language produced by an LLM <em>causes</em> users to respond with higher emotional attachment, rather than simply co-occurring with it due to user vulnerability or contextual factors.
-  </p>
-
-  <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 leading-tight mb-6 mt-12">
-    Related Work
-  </h2>
-  
-  <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-4">
-    The study builds on three main research threads:
-  </p>
-  
-  <ul class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6 ml-6 list-disc">
-    <li><strong>Human–AI social interaction</strong>, including the CASA paradigm and theories of artificial intimacy.</li>
-    <li><strong>Empirical studies of parasocial relationships</strong>, showing that users can form emotional bonds with chatbots.</li>
-    <li><strong>Causal inference with text</strong>, where high-dimensional language acts as a confounder and requires semantic controls.</li>
-  </ul>
-  
-  <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    While previous studies document emotional engagement with AI, they largely stop short of identifying empathy as a causal driver.
-  </p>
-
-  <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 leading-tight mb-6 mt-12">
-    Problem Formulation
-  </h2>
-  
-  <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-4">
-    We model each interaction as a conversational turn-pair: a user prompt, an LLM response, and a user reply.
-  </p>
-  
-  <ul class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6 ml-6 list-disc">
-    <li><strong>Treatment (T):</strong> High vs. low empathy in the LLM response.</li>
-    <li><strong>Outcome (Y):</strong> Emotional attachment expressed in the user's subsequent reply.</li>
-    <li><strong>Confounders (X):</strong> Prompt semantics, latent user traits, conversation context, and model identity.</li>
-  </ul>
-  
-  <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    A causal graph formalizes these relationships and motivates adjustment strategies to block backdoor paths.
+    The first challenge was measurement. You can't measure "emotional attachment" with a regex. I built a pipeline using the <strong>WildChat-1M</strong> dataset (over one million real interactions) and an <strong>LLM-as-a-Judge</strong> framework.
   </p>
 
 </div>
@@ -77,73 +35,95 @@ report: /projects_images/causal_inference/Report.pdf
 <figure class="col-span-1 md:col-span-5 w-full md:w-[90%] mx-auto my-12">
     <img 
       src="/projects_images/causal_inference/DAG.png" 
-      alt="Causal Graph" 
+      alt="DAG" 
       class="w-full h-auto object-cover rounded-lg shadow-lg"
     />
+    <figcaption class="mt-4 text-center text-sm text-gray-500 font-serif italic">
+      A Directed Acyclic Graph (DAG) of the hypothesized causal relationships.
+    </figcaption>
 </figure>
 
 <div class="hidden md:block md:col-span-1"></div>
 
 <div class="col-span-1 md:col-span-3 max-w-3xl mx-auto">
 
-  <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 leading-tight mb-6 mt-12">
-    Dataset and Preprocessing
-  </h2>
+  <ul class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6 ml-6 list-disc">
+    <li>
+      <strong>Operationalizing Variables:</strong> I used a few-shot prompted LLM to score both "Model Empathy" (Treatment) and "User Attachment" (Outcome) on a robust 1-7 Likert scale.
+    </li>
+    <li>
+      <strong>The Confounder Problem:</strong> A "Help me with code" prompt triggers low empathy. A "My dog died" prompt triggers high empathy. Comparing the two is apples-to-oranges.
+    </li>
+    <li>
+      <strong>Semantic Matching:</strong> To fix this, I used embedding models to match users who said <em>semantically similar things</em> but received different levels of empathy from the AI.
+    </li>
+  </ul>
+
+  <h3 class="text-2xl font-bold font-serif mb-4 mt-8">The Strategy: Double Robust Learning</h3>
   
   <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    We use the <strong>WildChat-1M</strong> dataset, containing over one million real-world chatbot conversations. A multi-stage preprocessing pipeline filters for English, non-transactional, non-toxic, multi-turn interactions. The final corpus consists of approximately 144k socio-emotional turn-pairs, from which a stratified sample of ~9k interactions is scored for empathy and attachment.
+    To estimate the true causal effect, I couldn't rely on a simple regression. I employed a <strong>Double Robust (DR) Learner</strong>. This method is the "belt and suspenders" of causal inference: it models both the probability of the treatment (Propensity Score) and the expected outcome.
+  </p>
+  
+  <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
+    If either model is correct, the final estimate is unbiased. The core estimation relies on the Average Treatment Effect (ATE) equation adjusted for confounders X:
   </p>
 
-  <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 leading-tight mb-6 mt-12">
-    Methodology
-  </h2>
-  
-  <h3 class="text-2xl font-serif font-bold text-gray-900 leading-tight mb-4 mt-8">
-    LLM-as-a-Judge
-  </h3>
+  <div class="my-8 text-center text-xl font-serif overflow-x-auto">
+
+  $$
+  ATE = E [ E[Y|T=1, X] - E[Y|T=0, X] ]
+  $$
+
+  </div>
+
+   <h3 class="text-2xl font-bold font-serif mb-4 mt-8">The Results</h3>
   
   <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    Empathy and attachment are quantified on a 1–7 scale using a few-shot prompted LLM judge, allowing scalable annotation of subtle emotional cues.
+    After controlling for prompt semantics, user traits, and conversation context, the results were clear. Empathetic responses caused a statistically significant increase in user attachment.
   </p>
   
-  <h3 class="text-2xl font-serif font-bold text-gray-900 leading-tight mb-4 mt-8">
-    Matching-Based ATE Estimation
-  </h3>
-  
   <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    Semantic embeddings of user prompts are used to match treated and control samples via greedy and Hungarian matching. This enables estimation of the Average Treatment Effect (ATE) under strong semantic control.
-  </p>
-  
-  <h3 class="text-2xl font-serif font-bold text-gray-900 leading-tight mb-4 mt-8">
-    Double Robust Learning
-  </h3>
-  
-  <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    To validate robustness, a Double Robust (DR) Learner combines outcome modeling and propensity estimation while incorporating all confounders. This approach yields ATE, CATE, and HTE estimates and reduces sensitivity to model misspecification.
+    Specifically, we observed an effect size of approximately <strong>+0.75 points</strong> on our 7-point scale. This confirms that empathy isn't just "nice to have", it's a mechanical lever for engagement.
   </p>
 
-  <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 leading-tight mb-6 mt-12">
-    Results
-  </h2>
+</div>
+
+<figure class="col-span-1 md:col-span-5 w-full md:w-[60%] mx-auto my-12">
+    <img 
+      src="/projects_images/causal_inference/results.png" 
+      alt="DR Learner Results" 
+      class="w-full h-auto object-cover rounded-lg shadow-lg"
+    />
+    <figcaption class="mt-4 text-center text-sm text-gray-500 font-serif italic">
+       DR-Learner causal effect estimates, controlling for all confounders.
+    </figcaption>
+</figure>
+
+<div class="hidden md:block md:col-span-1"></div>
+
+<div class="col-span-1 md:col-span-3 max-w-3xl mx-auto">
+
+  <h3 class="text-2xl font-bold font-serif mb-4 mt-8">Lessons Learned</h3>
   
   <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    Across matching methods and DR learners, empathetic responses increase user attachment by approximately <strong>0.73–0.77 points</strong> on the attachment scale. While the average effect is stable and positive, heterogeneous treatment effect analysis reveals meaningful variation: most users benefit from empathetic language, while a minority respond neutrally or negatively.
+    Applying causal inference to unstructured text is messy. Here is what I took away:
   </p>
 
-  <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 leading-tight mb-6 mt-12">
-    Discussion
-  </h2>
-  
-  <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    The convergence of multiple causal estimators provides strong evidence that empathetic AI language has a genuine causal impact on emotional attachment. Importantly, empathy is not universally beneficial—its effectiveness depends on user traits and conversational context. These findings highlight the need for adaptive, context-aware deployment of empathy in AI systems.
-  </p>
+  <ol class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6 ml-6 list-decimal">
+    <li>
+      <strong>Text is a High-Dimensional Confounder:</strong> You can't just control for "topic." Two prompts can be about "cooking" but have vastly different emotional valences. Embeddings are essential for proper matching.
+    </li>
+    <li>
+      <strong>Heterogeneity Matters:</strong> The ATE (Average) hides the truth. While the average effect was positive, the <em>Heterogeneous Treatment Effect (HTE)</em> analysis showed that for some task-oriented users, empathy was actually a distraction.
+    </li>
+    <li>
+      <strong>LLMs are Decent Judges:</strong> Using an LLM to score empathy proved scalable and surprisingly consistent with human intuition, provided the few-shot examples were carefully curated.
+    </li>
+  </ol>
 
-  <h2 class="text-3xl md:text-4xl font-serif font-bold text-gray-900 leading-tight mb-6 mt-12">
-    Future Work
-  </h2>
-  
-  <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
-    Future directions include dynamic causal modeling across conversation turns, richer user-level covariates, alternative causal estimators (e.g., X-learner, TMLE), and human-annotated ground truth labels to strengthen external validity.
-  </p>
+  <blockquote class="my-10 pl-6 border-l-[4px] border-[#E85D04] text-xl italic font-serif text-gray-700">
+    "We proved that AI empathy is not just a correlation. It is a causal driver of user connection, but it must be wielded with precision."
+  </blockquote>
 
 </div>

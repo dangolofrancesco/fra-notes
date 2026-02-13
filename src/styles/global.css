@@ -4,3 +4,14 @@
   --font-serif: "Merriweather", serif;
   --font-sans: "Inter", sans-serif;
 }
+
+/* KaTeX customization */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1rem 0;
+  margin: 2rem 0;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+}
