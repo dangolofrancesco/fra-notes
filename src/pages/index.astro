@@ -22,7 +22,7 @@ const sortedProjects = allProjects.sort((a, b) => b.data.date.valueOf() - a.data
         <div class="relative w-full">
             <div class="aspect-[16/10] md:aspect-[21/9] w-full md:rounded-lg overflow-hidden relative shadow-lg">
                  <img 
-                  src="/data background.jpg" 
+                  src="/images/shared/data-background.jpg" 
                   class="w-full h-full object-cover opacity-90 "
                 />
                 <div class="absolute inset-0 bg-black/10"></div>
@@ -30,7 +30,7 @@ const sortedProjects = allProjects.sort((a, b) => b.data.date.valueOf() - a.data
 
             <div class="absolute -bottom-10 md:-bottom-5 left-1/2 transform -translate-x-1/2 w-100 md:w-[600px] z-10 pointer-events-auto">
                  <img 
-                   src="/francesco-cutout.png" 
+                   src="/images/home/francesco-cutout.png" 
                    alt="Francesco" 
                    class="w-full h-auto drop-shadow-2xl hover:scale-105 transition duration-500 ease-out"
                  />
@@ -41,7 +41,7 @@ const sortedProjects = allProjects.sort((a, b) => b.data.date.valueOf() - a.data
 			<div class="bg-white/90 backdrop-blur-sm p-8 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] border border-gray-100 relative w-full text-left">
 				
                 <div class="w-fit mx-auto md:w-full">
-                    <h1 class="text-3xl font-serif font-bold text-gray-900 leading-[1.1] mb-4">
+                    <h1 class="text-3xl font-sans font-bold text-gray-900 leading-[1.1] mb-4">
                         Francesco <span class="text-blue-600">D'Angolo</span>
                         <br>
                         Computer & Data 
@@ -49,8 +49,8 @@ const sortedProjects = allProjects.sort((a, b) => b.data.date.valueOf() - a.data
                         <span id="dynamic-word" class="text-[#E85D04] transition-opacity duration-500">Science</span>
                     </h1>
 
-                    <p class="text-gray-600 text-sm leading-relaxed mb-6 font-sans">
-                        Specializing in ML, Optimization & Causal Inference
+                    <p class="text-gray-600 text-lg leading-relaxed mb-6 font-sans">
+                        Aspiring Quantitative Researcher.
                     </p>
 
                     <a href="/resume" class="text-xs font-bold uppercase tracking-widest text-[#E85D04] hover:text-black border-b-2 border-[#E85D04]/20 hover:border-black pb-1 transition-all">
@@ -92,29 +92,28 @@ const sortedProjects = allProjects.sort((a, b) => b.data.date.valueOf() - a.data
     
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       
-      <div class="lg:col-span-8 relative min-h-[500px] rounded-xl overflow-hidden group">
-          
+        <a href="https://www.uic.edu/" target="_blank" rel="noopener noreferrer" aria-label="University of Illinois Chicago" class="lg:col-span-8 block relative min-h-[500px] rounded-xl overflow-hidden group">
           <img 
-            src="/UIC.webp" 
-            alt="Francesco at UIC" 
-            class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+          src="/images/home/UIC.webp" 
+          alt="Francesco at UIC" 
+          class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
           />
           
-		<div class="absolute bottom-4 left-4 right-4 md:left-10 md:right-auto md:bottom-10 bg-white/70 backdrop-blur-sm p-6 md:p-8 rounded-lg shadow-xl md:max-w-sm z-10 border border-white/50">
+          <div class="absolute bottom-4 left-4 right-4 md:left-10 md:right-auto md:bottom-10 bg-white/70 backdrop-blur-sm p-6 md:p-8 rounded-lg shadow-xl md:max-w-sm z-10 border border-white/50">
               
-              <span class="text-[10px] font-bold font-sans tracking-[0.2em] uppercase text-gray-500 block mb-3">
-                  Currently
-              </span>
+            <span class="text-[10px] font-bold font-sans tracking-[0.2em] uppercase text-gray-500 block mb-3">
+              Currently
+            </span>
 
-              <h3 class="text-2xl md:text-3xl font-serif font-bold text-gray-900 leading-tight mb-3">
-                  Master at UIC <br> Computer Science  
-              </h3>
+            <h3 class="text-2xl md:text-3xl font-serif font-bold text-gray-900 leading-tight mb-3">
+              Master at UIC <br> Computer Science  
+            </h3>
 
-              <p class="text-gray-800 font-sans text-sm leading-relaxed font-medium">
-                  Double degree program with Politecnico di Torino, Master of Science in Computer Science, with specialization in Data Science.
-              </p>
+            <p class="text-gray-800 font-sans text-sm leading-relaxed font-medium">
+              Double degree program with Politecnico di Torino, Master of Science in Computer Science, with specialization in Data Science.
+            </p>
           </div>
-      </div>
+        </a>
 
 
 	<div class="lg:col-span-4 flex flex-col justify-between h-full pl-0 lg:pl-6 py-2">
@@ -135,21 +134,21 @@ const sortedProjects = allProjects.sort((a, b) => b.data.date.valueOf() - a.data
               </p>
           </div>
 
-          <div class="relative w-full aspect-[4/3] mt-8 group cursor-pointer">
-              
+          <a href="https://www.polito.it/" target="_blank" rel="noopener noreferrer" aria-label="Politecnico di Torino" class="relative w-full aspect-[4/3] mt-8 group block cursor-pointer">
+
               <div class="absolute inset-0 bg-[#E85D04] transform rotate-3 rounded-xl translate-x-2 translate-y-2 shadow-sm transition-transform group-hover:rotate-6"></div>
               
               <div class="absolute inset-0 bg-white rounded-xl overflow-hidden border-4 border-white shadow-lg transform -rotate-1 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-[1.02]">
                   
                   <img 
-                    src="/Politecnico.jpg" 
+                    src="/images/home/Politecnico.jpg" 
                     alt="Graduation" 
                     class="w-full h-full object-cover"
                   />
                   
               </div>
 
-          </div>
+          </a>
 
       </div>
 

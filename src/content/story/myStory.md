@@ -1,15 +1,15 @@
 
 ---
 title: "My Journey into Computer and Data Science"
-heroBackground: "/data background.jpg"
-heroCutout: "/francesco-cutout.png"
+heroBackground: "/images/shared/data-background.jpg"
+heroCutout: "/images/home/francesco-cutout.png"
 ---
 
 <div class="hidden md:block md:col-span-1"></div>
 
 <div class="col-span-1 md:col-span-3 max-w-3xl mx-auto">
   <h1 class="text-4xl md:text-5xl font-serif font-bold text-gray-900 leading-tight mb-8">
-    My Journey into Computer and Data Science
+    My Journey 
   </h1>
   
   <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6">
@@ -23,7 +23,7 @@ heroCutout: "/francesco-cutout.png"
 
 <figure class="col-span-1 md:col-span-5 w-full md:w-[80%] mx-auto my-12">
     <img 
-      src="/Timeline.jpg" 
+      src="/images/about/Timeline.jpg" 
       alt="Timeline of Francesco's Journey" 
       class="w-full h-auto object-cover rounded-md shadow-lg"
     />
@@ -47,6 +47,10 @@ heroCutout: "/francesco-cutout.png"
 
   <p class="text-lg md:text-xl text-gray-800 leading-relaxed font-serif mb-6"> 
     No matter how far I go, my trajectory is not about leaving something behind, but about expanding what I can bring back. My background, my education, and my experiences form a single narrative: one of curiosity, movement, and commitment—to innovation, to people, and to the places that shape us.
+  </p>
+
+  <p class="text-lg md:text-xl text-gray-400 leading-relaxed font-serif mb-6"> 
+    To be continue...
   </p>
   
 </div>

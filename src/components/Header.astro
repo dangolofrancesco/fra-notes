@@ -1,26 +1,60 @@
 ---
 // Header.astro
+import { getCollection } from 'astro:content';
+import { blogTopics } from '../content/config';
+
 const navItems = [
   { label: "Projects", href: "/progetti" },
   { label: "Story", href: "/about" },
-  { label: "Blog", href: "/blog" }, // Esempio se avrai un blog
+  { label: "Blog", href: "/blog" },
   { label: "Resume", href: "/resume" },
-  { label: "Contact", href: "/contact" },   
+  { label: "Contact", href: "/contact" },
 ];
+
+const projectsNavItem = navItems.find((item) => item.label === "Projects");
+const blogNavItem = navItems.find((item) => item.label === "Blog");
+const otherNavItems = navItems.filter((item) => item.label !== "Projects" && item.label !== "Blog");
+
+const allProjects = await getCollection('projects');
+const latestProjects = [...allProjects]
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 4);
 ---
 <header class="fixed top-4 left-0 right-0 z-50 px-4">
-  <div class="hidden md:flex max-w-7xl mx-auto items-stretch gap-2 h-16">
-    
+  <div class="hidden md:flex max-w-7xl mx-auto items-stretch gap-2 h-16 relative z-50">
+
     <a href="/" class="bg-[#1a1a1a] text-white w-20 md:w-20 shrink-0 rounded-lg flex items-center justify-center hover:bg-black transition-colors shadow-lg overflow-hidden">
-      <img src="/logo_desktop.png" alt="FD Notes" class="w-[80%] h-[50%] object-cover opacity-90 hover:opacity-100 transition" />
+      <img src="/public/images/ui/logo_desktop.png" alt="FD Notes" class="w-[80%] h-[50%] object-cover opacity-90 hover:opacity-100 transition" />
     </a>
 
     <nav class="bg-[#1a1a1a] flex-grow rounded-lg flex items-center justify-end md:justify-center px-6 shadow-lg">
-      
-      <div class="hidden md:flex space-x-12">
-        {navItems.map(item => (
-          <a 
-            href={item.href} 
+
+      <div class="hidden md:flex items-center space-x-12">
+        <!-- Projects dropdown trigger -->
+        <div id="projects-menu-trigger" class="group relative h-16 flex items-center">
+          <a
+            href={projectsNavItem?.href ?? "/progetti"}
+            class="relative flex h-full items-center font-sans text-white text-sm uppercase tracking-widest font-medium hover:text-gray-300 transition-colors"
+          >
+            {projectsNavItem?.label ?? "Projects"}
+            <span class="absolute bottom-0 left-1/2 h-0.5 w-20 -translate-x-1/2 bg-white opacity-0 transition-opacity duration-200 group-hover:opacity-100"></span>
+          </a>
+        </div>
+
+        <!-- Blog dropdown trigger -->
+        <div id="blog-menu-trigger" class="group relative h-16 flex items-center">
+          <a
+            href={blogNavItem?.href ?? "/blog"}
+            class="relative flex h-full items-center font-sans text-white text-sm uppercase tracking-widest font-medium hover:text-gray-300 transition-colors"
+          >
+            {blogNavItem?.label ?? "Blog"}
+            <span class="absolute bottom-0 left-1/2 h-0.5 w-10 -translate-x-1/2 bg-white opacity-0 transition-opacity duration-200 group-hover:opacity-100"></span>
+          </a>
+        </div>
+
+        {otherNavItems.map(item => (
+          <a
+            href={item.href}
             class="font-sans text-white text-sm uppercase tracking-widest font-medium hover:text-gray-300 hover:underline underline-offset-8 decoration-2 transition-all"
           >
             {item.label}
@@ -30,10 +64,10 @@ const navItems = [
     </nav>
 
     <div class="hidden md:flex items-center gap-2">
-        
-        <a 
-          href="https://www.linkedin.com/in/francesco-d-angolo/" 
-          target="_blank" 
+
+        <a
+          href="https://www.linkedin.com/in/francesco-d-angolo/"
+          target="_blank"
           class="bg-[#1a1a1a] text-white w-16 h-16 flex items-center justify-center rounded-lg hover:bg-[#0077b5] transition-colors shadow-lg"
           aria-label="LinkedIn"
         >
@@ -42,9 +76,9 @@ const navItems = [
           </svg>
         </a>
 
-        <a 
-          href="https://github.com/dangolofrancesco" 
-          target="_blank" 
+        <a
+          href="https://github.com/dangolofrancesco"
+          target="_blank"
           class="bg-[#1a1a1a] text-white w-16 h-16 flex items-center justify-center rounded-lg hover:bg-black transition-colors shadow-lg"
           aria-label="GitHub"
         >
@@ -57,9 +91,67 @@ const navItems = [
 
   </div>
 
+  <!-- Projects dropdown -->
+  <div
+    id="projects-menu-dropdown"
+    class="hidden md:block fixed inset-x-0 top-0 z-40 pt-28 pb-12 text-black opacity-0 shadow-[0_30px_60px_rgba(0,0,0,0.28)] pointer-events-none transition-opacity duration-200 ease-out"
+    style="background-color: rgba(216, 221, 227, 1);"
+  >
+    <div class="mx-auto w-full max-w-7xl px-8 lg:px-10">
+      <a
+        href={projectsNavItem?.href ?? "/progetti"}
+        class="inline-block font-sans text-2xl lg:text-3xl font-bold tracking-tight text-black hover:text-[#E85D04] transition-colors"
+      >
+        Explore projects
+      </a>
+
+      <div class="mt-6 mb-8 h-px w-36 bg-gray-500/70"></div>
+
+      <div class="flex flex-col gap-3">
+        {latestProjects.map((project) => (
+          <a
+            href={`/projects/${project.slug}`}
+            class="font-sans text-md font-semibold lg:text-2xl leading-[1.12] tracking-tight text-black hover:text-[#E85D04] transition-colors"
+          >
+            {project.data.title}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Blog dropdown -->
+  <div
+    id="blog-menu-dropdown"
+    class="hidden md:block fixed inset-x-0 top-0 z-40 pt-28 pb-12 text-black opacity-0 shadow-[0_30px_60px_rgba(0,0,0,0.28)] pointer-events-none transition-opacity duration-200 ease-out"
+    style="background-color: rgba(185, 28, 28, 1);"
+  >
+    <div class="mx-auto w-full max-w-7xl px-8 lg:px-10">
+      <a
+        href={blogNavItem?.href ?? "/blog"}
+        class="inline-block font-sans text-2xl lg:text-3xl font-bold tracking-tight text-black hover:text-[#E85D04] transition-colors"
+      >
+        Explore blog
+      </a>
+
+      <div class="mt-6 mb-8 h-px w-36 bg-black/30"></div>
+
+      <div class="flex flex-col gap-3">
+        {blogTopics.map((topic) => (
+          <a
+            href={`/blog/topic/${topic.slug}`}
+            class="font-sans text-xl lg:text-2xl font-bold leading-[1.12] tracking-tight text-black hover:text-[#E85D04] transition-colors"
+          >
+            {topic.title}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
   <!-- MOBILE HEADER -->
   <div class="md:hidden bg-[#1a1a1a] h-16 rounded-lg flex items-center justify-between px-4 relative shadow-lg">
-      
+
       <!-- Hamburger Menu Button -->
       <button id="mobile-menu-btn" class="text-white focus:outline-none p-2">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
@@ -69,7 +161,7 @@ const navItems = [
 
       <!-- Logo (Centered) -->
       <a href="/" class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-20 w-auto">
-         <img src="/logo_mobile.png" alt="Francesco Portfolio Placeholder" class="h-full w-48 object-contain opacity-90" />
+         <img src="/public/images/ui/logo_mobile.png" alt="Francesco Portfolio Placeholder" class="h-full w-48 object-contain opacity-90" />
       </a>
 
       <!-- Social Icons (Right) -->
@@ -98,8 +190,8 @@ const navItems = [
 
         <nav class="flex flex-col space-y-6 text-left">
              {navItems.map(item => (
-                <a 
-                  href={item.href} 
+                <a
+                  href={item.href}
                   class="mobile-nav-link text-5xl md:text-6xl font-bold font-sans text-black hover:text-[#E85D04] transition-colors"
                 >
                   {item.label}
@@ -111,10 +203,65 @@ const navItems = [
 </header>
 
 <script is:inline>
+  const projectsMenuTrigger = document.getElementById('projects-menu-trigger');
+  const projectsMenuDropdown = document.getElementById('projects-menu-dropdown');
+  const blogMenuTrigger = document.getElementById('blog-menu-trigger');
+  const blogMenuDropdown = document.getElementById('blog-menu-dropdown');
   const menuBtn = document.getElementById('mobile-menu-btn');
   const closeBtn = document.getElementById('close-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
   const navLinks = document.querySelectorAll('.mobile-nav-link');
+
+  let projectsMenuCloseTimer = null;
+  let blogMenuCloseTimer = null;
+
+  function openProjectsMenu() {
+    if (!projectsMenuDropdown) return;
+    closeBlogMenu();
+    projectsMenuDropdown.classList.remove('opacity-0', 'pointer-events-none');
+    projectsMenuDropdown.classList.add('opacity-100', 'pointer-events-auto');
+  }
+
+  function closeProjectsMenu() {
+    if (!projectsMenuDropdown) return;
+    projectsMenuDropdown.classList.remove('opacity-100', 'pointer-events-auto');
+    projectsMenuDropdown.classList.add('opacity-0', 'pointer-events-none');
+  }
+
+  function scheduleProjectsMenuClose() {
+    if (projectsMenuCloseTimer) window.clearTimeout(projectsMenuCloseTimer);
+    projectsMenuCloseTimer = window.setTimeout(closeProjectsMenu, 80);
+  }
+
+  function cancelProjectsMenuClose() {
+    if (!projectsMenuCloseTimer) return;
+    window.clearTimeout(projectsMenuCloseTimer);
+    projectsMenuCloseTimer = null;
+  }
+
+  function openBlogMenu() {
+    if (!blogMenuDropdown) return;
+    closeProjectsMenu();
+    blogMenuDropdown.classList.remove('opacity-0', 'pointer-events-none');
+    blogMenuDropdown.classList.add('opacity-100', 'pointer-events-auto');
+  }
+
+  function closeBlogMenu() {
+    if (!blogMenuDropdown) return;
+    blogMenuDropdown.classList.remove('opacity-100', 'pointer-events-auto');
+    blogMenuDropdown.classList.add('opacity-0', 'pointer-events-none');
+  }
+
+  function scheduleBlogMenuClose() {
+    if (blogMenuCloseTimer) window.clearTimeout(blogMenuCloseTimer);
+    blogMenuCloseTimer = window.setTimeout(closeBlogMenu, 80);
+  }
+
+  function cancelBlogMenuClose() {
+    if (!blogMenuCloseTimer) return;
+    window.clearTimeout(blogMenuCloseTimer);
+    blogMenuCloseTimer = null;
+  }
 
   function toggleMenu() {
     if (mobileMenu) {
@@ -125,7 +272,38 @@ const navItems = [
 
   if (menuBtn) menuBtn.addEventListener('click', toggleMenu);
   if (closeBtn) closeBtn.addEventListener('click', toggleMenu);
-  
+
+  if (projectsMenuTrigger && projectsMenuDropdown) {
+    projectsMenuTrigger.addEventListener('mouseenter', () => {
+      cancelProjectsMenuClose();
+      openProjectsMenu();
+    });
+    projectsMenuTrigger.addEventListener('mouseleave', scheduleProjectsMenuClose);
+    projectsMenuDropdown.addEventListener('mouseenter', () => {
+      cancelProjectsMenuClose();
+      openProjectsMenu();
+    });
+    projectsMenuDropdown.addEventListener('mouseleave', scheduleProjectsMenuClose);
+  }
+
+  if (blogMenuTrigger && blogMenuDropdown) {
+    blogMenuTrigger.addEventListener('mouseenter', () => {
+      cancelBlogMenuClose();
+      openBlogMenu();
+    });
+    blogMenuTrigger.addEventListener('mouseleave', scheduleBlogMenuClose);
+    blogMenuDropdown.addEventListener('mouseenter', () => {
+      cancelBlogMenuClose();
+      openBlogMenu();
+    });
+    blogMenuDropdown.addEventListener('mouseleave', scheduleBlogMenuClose);
+  }
+
+  window.addEventListener('scroll', () => {
+    closeProjectsMenu();
+    closeBlogMenu();
+  }, { passive: true });
+
   navLinks.forEach(link => {
     link.addEventListener('click', toggleMenu);
   });

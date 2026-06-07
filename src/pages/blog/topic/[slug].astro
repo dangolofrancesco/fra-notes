@@ -1,0 +1,118 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+import { blogTopics } from '../../../content/config';
+
+export async function getStaticPaths() {
+  return blogTopics.map(topic => ({
+    params: { slug: topic.slug },
+    props: { topic },
+  }));
+}
+
+const { topic } = Astro.props;
+const introLines = topic.intro.split('\n\n');
+
+// Per-topic theme color (background tint of the intro block).
+// Add new topics' colors here; falls back to a neutral tint.
+const topicTint: Record<string, string> = {
+  quant: "#eef1ec",   // soft sage — change freely
+};
+const tint = topicTint[topic.slug] ?? "#f1f1ef";
+
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter(p => p.data.playlistSlug === topic.slug)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const featuredPost = posts[0];
+const restPosts = posts.slice(1);
+---
+
+<BaseLayout pageTitle={topic.title} description={topic.blurb}>
+
+  <!-- Top spacing so the fixed header never overlaps content -->
+  <div class="pt-0 md:pt-32"></div>
+
+  <!-- Breadcrumb back to blog -->
+  <div class="w-[90%] mx-auto mb-6">
+    <a href="/blog" class="inline-flex items-center gap-2 text-[10px] font-bold font-sans tracking-[0.2em] uppercase text-gray-400 hover:text-[#E85D04] transition-colors group">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3 h-3 group-hover:-translate-x-1 transition-transform duration-200">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+      </svg>
+      All topics
+    </a>
+  </div>
+
+  <!-- ════ INTRO BLOCK — tinted background, image left, text right ════ -->
+  <section class="w-[90%] mx-auto rounded-2xl px-6 md:px-12 py-8 md:py-10" style={`background-color: ${tint};`}>
+
+    <h1 class="text-2xl md:text-5xl font-sans font-bold text-gray-900 mb-6 leading-tight">
+      {topic.title}
+    </h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14 items-center">
+
+      <!-- Image -->
+      <div class="md:col-span-5">
+        <div class="aspect-[16/10] rounded-lg overflow-hidden shadow-md bg-gray-200">
+          <img
+            src={topic.image}
+            alt={topic.title}
+            class="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+
+      <!-- Editorial text -->
+      <div class="md:col-span-7 flex flex-col justify-center">
+        {introLines.map((line: string) => (
+          <p class="text-lg md:text-xl text-gray-800 font-sans leading-relaxed mb-6 last:mb-0">
+            {line}
+          </p>
+        ))}
+        <p class="mt-8 font-serif italic text-gray-600 text-xl">Francesco D'Angolo</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════ ARTICLES ════ -->
+  <section class="w-[90%] mx-auto mt-20 mb-24">
+
+    {featuredPost && (
+      <BlogCard
+        variant="featured"
+        title={featuredPost.data.title}
+        description={featuredPost.data.description}
+        url={`/blog/${featuredPost.slug}`}
+        image={featuredPost.data.image}
+        tags={featuredPost.data.tags}
+        date={featuredPost.data.date}
+        readingTime={featuredPost.data.readingTime}
+        playlist={topic.name}
+      />
+    )}
+
+    {restPosts.length > 0 && (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {restPosts.map(post => (
+          <BlogCard
+            variant="compact"
+            title={post.data.title}
+            description={post.data.description}
+            url={`/blog/${post.slug}`}
+            image={post.data.image}
+            tags={post.data.tags}
+            date={post.data.date}
+            readingTime={post.data.readingTime}
+            playlist={topic.name}
+          />
+        ))}
+      </div>
+    )}
+
+  </section>
+
+</BaseLayout>

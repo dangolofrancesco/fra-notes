@@ -1,9 +1,9 @@
 ---
 title: Building a 4-Microsecond HFT Engine for Crypto Arbitrage
 description: How I optimized a strategy from milliseconds to microseconds using C++, Pybind11, and Order Book Imbalance.
-image: /projects_images/hft/header_hft-proget.png
+image: /projects_images/hft/hft_cover.svg
 tags: [ HFT, C++, Python, QuantitativeFinance, AlgorithmicTrading]
-date: 2026-12-02
+date: 2026-02-12
 github: https://github.com/dangolofrancesco/high-freq-causal-engine.git
 ---
 

@@ -20,8 +20,8 @@ const allTags = ['All', ...new Set(otherProjects.flatMap(project => project.data
 
 <BaseLayout pageTitle={pageTitle}>
 
-  <div class="relative w-full h-[50vh] min-h-[400px] overflow-hidden group flex items-end">
-      <img src="/data background.jpg" alt="Projects Cover" class="absolute inset-0 w-full h-full object-cover"/>
+  <div class="relative w-full h-[50vh] min-h-[400px] overflow-hidden group flex items-end mb-12 md:mb-16">
+      <img src="/images/shared/data-background.jpg" alt="Projects Cover" class="absolute inset-0 w-full h-full object-cover"/>
       
       <div class="relative z-10 w-[90%] mx-auto pb-10 md:pb-16 pl-2">
           <h1 class="text-3xl md:text-[4rem] font-sans font-bold text-white tracking-tighter leading-none">
@@ -30,18 +30,10 @@ const allTags = ['All', ...new Set(otherProjects.flatMap(project => project.data
       </div>
   </div>
 
-  <section class="w-[90%] md:w-[70%] mx-auto py-20 md:py-28 border-b border-gray-200 mb-20">
-      <h2 class="text-3xl md:text-4xl font-sans font-light leading-tight text-gray-500">
-        My <span class="font-bold text-gray-900">work</span> is driven by a strong curiosity on how <span class="font-bold text-[#E85D04]">technology</span> can shape the future. 
-        <br><br>
-        I believe real innovation lies at the intersection of <span class="font-bold text-gray-900">logic and imagination</span>, and that the greatest value we can bring is building technology that empowers people and communities.
-      </h2>
-  </section>
-
   {featuredProject && (
     <section class="w-[90%] mx-auto mb-24">
         <div class="mb-8 border-l-4 border-[#E85D04] pl-4">
-            <span class="text-xs font-bold font-sans tracking-[0.2em] uppercase text-gray-500">
+            <span class="text-lg font-bold font-sans tracking-[0.2em] uppercase text-gray-500">
                 Latest Work
             </span>
         </div>
