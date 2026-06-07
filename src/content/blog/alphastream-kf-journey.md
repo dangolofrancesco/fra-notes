@@ -6,7 +6,7 @@ tags: [StatArb, KalmanFilter, Learning, QuantitativeFinance]
 readingTime: 12
 playlist: "Quant"
 playlistSlug: "quant"
-image: "/public/images/blog/quant/alpha_KF_2.png"
+image: "/images/blog/quant/alpha_KF_2.png"
 ---
 
 <div class="col-span-1 md:col-span-3 max-w-3xl mx-auto">

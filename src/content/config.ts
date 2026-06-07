@@ -46,7 +46,7 @@ export const blogTopics: BlogTopic[] = [
     title: "My Quant Path",
     blurb: "My journey into quantitative finance — from a computer science background to building trading systems and learning the theory behind the markets.",
     intro: "I come from computer science. When I arrived in Chicago I discovered quantitative finance - a world where mathematics, statistics, and markets intersect in ways I hadn't imagined. But reading papers and textbooks felt too abstract. Coming from an engineering background, I decided the best way to learn was to build.\n\nThese posts document that journey: the theory I had to absorb, the bugs that cost me weeks, and the deeper questions that keep pulling me forward. I'm still early in this path. That's the point.",
-    image: "/public/images/blog/quant/quant_hero.png"
+    image: "/images/blog/quant/quant_hero.png"
   },
 ];
 
